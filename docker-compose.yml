@@ -1,0 +1,20 @@
+# Simplify Docker command line for this project
+version: '3'
+services:
+  web: # development container
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules # map internal folder node_modules
+      - .:/app # Current folder outside container -> /app in container
+  test: # test container
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"] # override starting command to execute npm run test
